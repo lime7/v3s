@@ -1,0 +1,26 @@
+// style.scss
+
+// Fonts
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+// Configuration and helpers
+@import '_variables';
+@import 'mixins';
+
+// Vendors
+@import '~bootstrap/scss/bootstrap';
+
+// Base stuff
+@import 'base';
+
+// Components
+@import 'components';
+
+// Layout-related sections
+@import 'layout';
+
+// Page-specific styles
+// @import 'pages';
+
+// Themes
+// @import 'themes';

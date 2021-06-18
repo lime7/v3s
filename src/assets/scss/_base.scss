@@ -1,0 +1,6 @@
+// Base
+
+a[href*="mailto:"],
+a[href*="tel:"] {
+  white-space: nowrap;
+}
