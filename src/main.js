@@ -5,6 +5,8 @@ import router from './router'
 import store from './store'
 import Bootstrap from 'bootstrap'
 
+import '@/firebase'
+
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@/assets/scss/style.scss'
 

@@ -12,6 +12,7 @@
     "@popperjs/core": "^2.9.2",
     "bootstrap": "^5.0.1",
     "core-js": "^3.6.5",
+    "firebase": "^8.6.8",
     "font-awesome": "^4.7.0",
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.0",
