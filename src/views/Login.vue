@@ -5,7 +5,9 @@
     <form
       class="form mb-4"
       v-on:submit.prevent="submitHandler">
-      <div class="mb-3">
+      <div
+        class="mb-3"
+        :class="{ error: v$.email.$errors.length }">
         <label
           for="loginEmail"
           class="form-label">
@@ -16,10 +18,12 @@
           class="form-control"
           id="loginEmail"
           placeholder="name@example.com"
-          v-model="email">
+          v-model="v$.email.$model">
       </div>
 
-      <div class="mb-3">
+      <div
+        class="mb-3"
+        :class="{ error: v$.password.$errors.length }">
         <label
           for="loginPass"
           class="form-label">
@@ -30,7 +34,7 @@
           class="form-control"
           id="loginPass"
           placeholder="****"
-          v-model="password">
+          v-model="v$.password.$model">
       </div>
 
       <button
@@ -66,19 +70,49 @@
 </template>
 
 <script>
+import useVuelidate from '@vuelidate/core'
+import { helpers, required, minLength, email } from '@vuelidate/validators'
+
 import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
+  setup: () => ({ v$: useVuelidate() }),
   data () {
     return {
       email: '',
       password: ''
     }
   },
+  validations () {
+    return {
+      name: {
+        required,
+        minLength: helpers.withMessage(
+          ({ $pending, $invalid, $params, $model }) =>
+            `This field has a value of '${$model}' but must have a min length of ${
+              $params.min
+            } so it is ${$invalid ? 'invalid' : 'valid'}`,
+          minLength(7)
+        )
+      },
+      email: {
+        required,
+        email
+      },
+      password: {
+        required,
+        minLength: minLength(7)
+      }
+    }
+  },
   methods: {
     ...mapActions(['userLogin', 'userLoginGoogle']),
-    submitHandler () {
+    async submitHandler () {
+      const isFormCorrect = await this.v$.$validate()
+      if (!isFormCorrect) return
+      // actually submit form
+      console.log('S: >>> LogIn')
       this.userLogin(this.email, this.password)
     }
   }

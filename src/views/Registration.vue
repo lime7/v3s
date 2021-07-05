@@ -5,59 +5,114 @@
     <form
       class="form mb-4"
       v-on:submit.prevent="submitHandler">
-      <div class="mb-3">
+      <div
+        class="mb-3"
+        :class="{ error: v$.name.$errors.length }">
+        <label
+          for="regName"
+          class="form-label">
+          Name
+        </label>
+        <input
+          id="regName"
+          v-model="v$.name.$model"
+          class="form-control" />
+        <div
+          class="input-errors invalid-feedback d-block"
+          v-for="error of v$.name.$errors"
+          :key="error.$uid">
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
+      </div>
+
+      <div
+        class="mb-3"
+        :class="{ error: v$.email.$errors.length }">
         <label
           for="regEmail"
           class="form-label">
-          Email address
+          Email adress
         </label>
         <input
-          type="email"
-          class="form-control"
           id="regEmail"
-          placeholder="name@example.com"
-          v-model="email"
-          :rules="emailRules"
-          required>
+          v-model="v$.email.$model"
+          class="form-control" />
+        <div
+          class="input-errors invalid-feedback d-block"
+          v-for="error of v$.email.$errors"
+          :key="error.$uid" >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
 
-      <div class="mb-3">
+      <div
+        class="mb-3"
+        :class="{ error: v$.password.$errors.length }">
         <label
           for="regPass"
           class="form-label">
           Password
         </label>
         <input
-          type="password"
-          class="form-control"
           id="regPass"
-          placeholder="****"
-          v-model="password"
-          :rules="passwordRules"
-          required>
+          type="password"
+          v-model="v$.password.$model"
+          class="form-control" />
+        <div
+          class="input-errors invalid-feedback d-block"
+          v-for="error of v$.password.$errors"
+          :key="error.$uid" >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
 
-      <div class="mb-3">
+      <div
+        class="mb-3"
+        :class="{ error: v$.repassword.$errors.length }">
         <label
           for="regRePass"
           class="form-label">
           Repeat Password
         </label>
         <input
-          type="password"
-          class="form-control"
           id="regRePass"
-          placeholder="****"
-          v-model="repassword"
-          :rules="repasswordRules"
-          required>
+          type="password"
+          v-model="v$.repassword.$model"
+          class="form-control" />
+        <div
+          class="input-errors invalid-feedback d-block"
+          v-for="error of v$.repassword.$errors"
+          :key="error.$uid" >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
 
-      <button
-        class="btn btn-primary"
-        type="submit">
-        Registration
-      </button>
+      <div
+        class="mb-3"
+        :class="{ error: v$.checkbox.$errors.length }">
+        <div class="form-check">
+          <input
+            type="checkbox"
+            v-model="v$.checkbox.$model"
+            class="form-check-input"
+            id="regAgree"
+          />
+          <label
+            class="form-check-label"
+            for="regAgree">
+            Agree to terms and conditions
+          </label>
+        </div>
+        <div
+          class="input-errors invalid-feedback d-block"
+          v-for="error of v$.checkbox.$errors"
+          :key="error.$uid"
+        >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" type="submit">Registration</button>
     </form>
 
     <div class="text-center">
@@ -67,32 +122,59 @@
 </template>
 
 <script>
+import useVuelidate from '@vuelidate/core'
+import { helpers, required, minLength, email, sameAs } from '@vuelidate/validators'
+
 import { mapActions } from 'vuex'
 
 export default {
   name: 'Registration',
+  setup: () => ({ v$: useVuelidate() }),
   data () {
     return {
+      name: '',
       email: '',
       password: '',
-      repassword: ''
-      // emailRules: [
-      //   (v) => !!v || 'E-mail is required',
-      //   (v) => /.+@.+/.test(v) || 'E-mail must be valid'
-      // ],
-      // passwordRules: [
-      //   (v) => !!v || 'Password is required',
-      //   (v) => v.length >= 6 || 'Password must be greater than 6 characters'
-      // ],
-      // repasswordRules: [
-      //   (v) => !!v || 'Repeat Password is required',
-      //   (v) => v === this.password || 'Password must match'
-      // ]
+      repassword: '',
+      checkbox: ''
+    }
+  },
+  validations () {
+    return {
+      name: {
+        required,
+        minLength: helpers.withMessage(
+          ({ $pending, $invalid, $params, $model }) =>
+            `This field has a value of '${$model}' but must have a min length of ${
+              $params.min
+            } so it is ${$invalid ? 'invalid' : 'valid'}`,
+          minLength(7)
+        )
+      },
+      email: {
+        required,
+        email
+      },
+      password: {
+        required,
+        minLength: minLength(7)
+      },
+      repassword: {
+        required,
+        sameAsRaw: sameAs(this.password)
+      },
+      checkbox: {
+        required
+      }
     }
   },
   methods: {
     ...mapActions(['userRegistration']),
-    submitHandler () {
+    async submitHandler () {
+      const isFormCorrect = await this.v$.$validate()
+      if (!isFormCorrect) return
+      // actually submit form
+      console.log('S: >>> Registration')
       this.userRegistration({
         email: this.email,
         password: this.password
