@@ -11,14 +11,18 @@
         <label
           for="loginEmail"
           class="form-label">
-          Email address
+          Email adress
         </label>
         <input
-          type="email"
-          class="form-control"
           id="loginEmail"
-          placeholder="name@example.com"
-          v-model="v$.email.$model">
+          v-model="v$.email.$model"
+          class="form-control" />
+        <div
+          class="input-errors invalid-feedback d-block"
+          v-for="error of v$.email.$errors"
+          :key="error.$uid" >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
 
       <div
@@ -30,11 +34,16 @@
           Password
         </label>
         <input
-          type="password"
-          class="form-control"
           id="loginPass"
-          placeholder="****"
-          v-model="v$.password.$model">
+          type="password"
+          v-model="v$.password.$model"
+          class="form-control" />
+        <div
+          class="input-errors invalid-feedback d-block"
+          v-for="error of v$.password.$errors"
+          :key="error.$uid" >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
 
       <button
@@ -109,11 +118,13 @@ export default {
   methods: {
     ...mapActions(['userLogin', 'userLoginGoogle']),
     async submitHandler () {
-      const isFormCorrect = await this.v$.$validate()
-      if (!isFormCorrect) return
+      // const isFormCorrect = await this.v$.$validate()
+      // if (!isFormCorrect) return
       // actually submit form
-      console.log('S: >>> LogIn')
-      this.userLogin(this.email, this.password)
+      this.userLogin({
+        email: this.email,
+        password: this.password
+      })
     }
   }
 }

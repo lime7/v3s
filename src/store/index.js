@@ -22,13 +22,11 @@ export default createStore({
   },
   actions: {
     userRegistration ({ commit }, { email, password }) {
-      console.log('userRegistration')
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
           const user = userCredential.user
-          console.log(user)
           commit('setUser', user)
           commit('setIsAuthentificated', true)
           router.push('/login')

@@ -174,7 +174,6 @@ export default {
       const isFormCorrect = await this.v$.$validate()
       if (!isFormCorrect) return
       // actually submit form
-      console.log('S: >>> Registration')
       this.userRegistration({
         email: this.email,
         password: this.password
