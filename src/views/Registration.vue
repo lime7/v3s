@@ -1,20 +1,16 @@
 <template>
-  <div class="auth">
-    <h1>Registration</h1>
+  <div>
+    <h1 class="mb-4 h3 fw-bold">Registration</h1>
 
     <form
-      class="form mb-4"
+      class="form mb-3"
       v-on:submit.prevent="submitHandler">
       <div
-        class="mb-3"
+        class="mb-3 position-relative"
         :class="{ error: v$.name.$errors.length }">
-        <label
-          for="regName"
-          class="form-label">
-          Name
-        </label>
         <input
           id="regName"
+          placeholder="Name"
           v-model="v$.name.$model"
           class="form-control" />
         <div
@@ -26,15 +22,11 @@
       </div>
 
       <div
-        class="mb-3"
+        class="mb-3 position-relative"
         :class="{ error: v$.email.$errors.length }">
-        <label
-          for="regEmail"
-          class="form-label">
-          Email adress
-        </label>
         <input
           id="regEmail"
+          placeholder="Email address"
           v-model="v$.email.$model"
           class="form-control" />
         <div
@@ -46,15 +38,11 @@
       </div>
 
       <div
-        class="mb-3"
+        class="mb-3 position-relative"
         :class="{ error: v$.password.$errors.length }">
-        <label
-          for="regPass"
-          class="form-label">
-          Password
-        </label>
         <input
           id="regPass"
+          placeholder="Password"
           type="password"
           v-model="v$.password.$model"
           class="form-control" />
@@ -67,15 +55,11 @@
       </div>
 
       <div
-        class="mb-3"
+        class="mb-3 position-relative"
         :class="{ error: v$.repassword.$errors.length }">
-        <label
-          for="regRePass"
-          class="form-label">
-          Repeat Password
-        </label>
         <input
           id="regRePass"
+          placeholder="Repeat Password"
           type="password"
           v-model="v$.repassword.$model"
           class="form-control" />
@@ -88,7 +72,7 @@
       </div>
 
       <div
-        class="mb-3"
+        class="mb-3 position-relative"
         :class="{ error: v$.checkbox.$errors.length }">
         <div class="form-check">
           <input
@@ -98,9 +82,9 @@
             id="regAgree"
           />
           <label
-            class="form-check-label"
+            class="form-check-label text-muted"
             for="regAgree">
-            Agree to terms and conditions
+            <small>Agree to <a href="#" class="text-reset">Terms and Conditions</a> and <a href="#" class="text-reset">Privacy Policy</a></small>
           </label>
         </div>
         <div
@@ -112,11 +96,14 @@
         </div>
       </div>
 
-      <button class="btn btn-primary" type="submit">Registration</button>
+      <div class="pt-2">
+        <button class="btn btn-success w-100" type="submit">Registration</button>
+      </div>
     </form>
 
     <div class="text-center">
-      Already have an account? <router-link to="/login">Log In</router-link>
+      <span class="me-2">Already have an account?</span>
+      <strong><router-link to="/login">Login</router-link></strong>
     </div>
   </div>
 </template>

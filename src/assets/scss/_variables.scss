@@ -1,3 +1,15 @@
 // Variables
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-$font-family-sans-serif: 'Roboto', "Helvetica Neue", Arial !default;
+$font-family-sans-serif: 'Poppins', "Helvetica Neue", Arial !default;
+$box-shadow: none;
+$input-btn-focus-box-shadow: none;
+$gray-100: #f7f7f7 !default;
+$input-bg: $gray-100;
+$input-border-color: $gray-100;
+$form-label-font-size: .875rem;
+$input-font-size: $form-label-font-size;
+$form-feedback-font-size: 10px;
+$input-padding-y: .625rem;
+$green:   #198754 !default;
+$link-color: $green;

@@ -1,9 +1,9 @@
 <template>
-  <div id="nav" class="mb-4">
+  <!-- <div id="nav" class="mb-4">
     <router-link to="/">Home</router-link>
     <router-link to="/login">Login</router-link>
     <router-link to="/registration">Registration</router-link>
-  </div>
+  </div> -->
 
   <component :is="layout">
     <router-view/>

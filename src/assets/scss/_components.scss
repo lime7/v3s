@@ -1,1 +1,17 @@
 // Components
+.auth {
+  height: 100vh;
+}
+
+small.text-muted {
+  font-size: .75rem;
+  line-height: 1.2
+}
+
+img.h-100 {
+  object-fit: cover;
+}
+
+strong {
+  font-weight: 600;
+}

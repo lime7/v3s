@@ -1,20 +1,38 @@
 <template>
-  <div class="auth">
-    <h1>Login</h1>
+  <div>
+    <h1 class="mb-4 h3 fw-bold">Login</h1>
+
+    <ul class="list-unstyled d-flex align-items-center">
+      <li class="me-2">
+        <a
+          href="#"
+          class="btn btn-success"
+          v-on:click.prevent="userLoginGoogle">
+          <i class="fab fa-google-plus-g"></i>
+          <span class="ms-3">Login with Google</span>
+        </a>
+      </li>
+      <li class="mx-2">
+        <a href="#" class="btn btn-success disabled">
+          <i class="fab fa-github"></i>
+        </a>
+      </li>
+      <li class="mx-2">
+        <a href="#" class="btn btn-success disabled">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+      </li>
+    </ul>
 
     <form
-      class="form mb-4"
+      class="form mb-3"
       v-on:submit.prevent="submitHandler">
       <div
         class="mb-3"
         :class="{ error: v$.email.$errors.length }">
-        <label
-          for="loginEmail"
-          class="form-label">
-          Email adress
-        </label>
         <input
           id="loginEmail"
+          placeholder="Email address"
           v-model="v$.email.$model"
           class="form-control" />
         <div
@@ -28,13 +46,9 @@
       <div
         class="mb-3"
         :class="{ error: v$.password.$errors.length }">
-        <label
-          for="loginPass"
-          class="form-label">
-          Password
-        </label>
         <input
           id="loginPass"
+          placeholder="Password"
           type="password"
           v-model="v$.password.$model"
           class="form-control" />
@@ -46,34 +60,22 @@
         </div>
       </div>
 
-      <button
-        class="btn btn-primary"
-        type="submit">
-        Login
-      </button>
+      <div class="pt-2">
+        <button
+          class="btn btn-success w-100"
+          type="submit">
+          Login
+        </button>
+
+        <a href="#" class="d-block text-center text-muted mt-2">
+          Forgot password?
+        </a>
+      </div>
     </form>
 
-    <div class="card text-center mb-4">
-      <div class="card-body">
-        <h6 class="card-title">
-          Or Login with
-        </h6>
-
-        <ul class="list-unstyled d-flex align-items-center justify-content-center pt-4">
-          <li>
-            <a
-              href="#"
-              class="rounded-circle border p-3"
-              v-on:click.prevent="userLoginGoogle">
-              <i class="fab fa-google-plus-g"></i>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-
     <div class="text-center">
-      Don't have an account yet? <router-link to="/registration">Sign Up</router-link>
+      <span class="me-2">Don't have an account yet?</span>
+      <strong><router-link to="/registration">Register</router-link></strong>
     </div>
   </div>
 </template>
