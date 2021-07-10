@@ -1,14 +1,27 @@
 <template>
   <div class="home">
     <h1>Home</h1>
+    {{ isAuthentificated }}
+    <div v-if="!isAuthentificated">is not Auth</div>
+    <div v-else>
+      {{ getUser.email }}
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import SignIn from '@/components/SignIn.vue'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Home'
+  name: 'Home',
+  // mounted () {
+  //   this.userAction()
+  // },
+  computed: {
+    ...mapGetters(['getUser', 'isAuthentificated'])
+  }
+  // methods: {
+  //   ...mapActions(['userAction'])
+  // }
 }
 </script>

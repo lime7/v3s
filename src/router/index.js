@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import firebase from 'firebase'
 import store from '@/store'
 import Home from '../views/Home.vue'
-import firebase from 'firebase'
 
 const routes = [
   {

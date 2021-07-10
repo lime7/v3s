@@ -8,6 +8,9 @@ export default createStore({
     user: null
   },
   getters: {
+    getUser (state) {
+      return state.user
+    },
     isAuthentificated (state) {
       return state.user !== null && state.user !== undefined
     }
@@ -26,6 +29,7 @@ export default createStore({
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
+          console.log(userCredential.user)
           const user = userCredential.user
           commit('setUser', user)
           commit('setIsAuthentificated', true)
@@ -44,6 +48,7 @@ export default createStore({
         .signInWithEmailAndPassword(email, password)
         .then(user => {
           commit('setUser', user)
+          console.log(user)
           commit('setIsAuthentificated', true)
           router.push('/') // or router.push('/dashboard')
         })
@@ -86,6 +91,17 @@ export default createStore({
           router.push('/')
         })
     }
+    // userAction ({ commit }) {
+    //   firebase
+    //     .auth()
+    //     .onAuthStateChanged(user => {
+    //       if (user) {
+    //         commit('setUser', user)
+    //       } else {
+    //         commit('setUser', null)
+    //       }
+    //     })
+    // }
   },
   modules: {
   }
