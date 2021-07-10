@@ -24,12 +24,17 @@ export default createStore({
     }
   },
   actions: {
-    userRegistration ({ commit }, { email, password }) {
+    userRegistration ({ commit }, { name, email, password }) {
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
-          console.log(userCredential.user)
+          userCredential.user.updateProfile({
+            displayName: name
+          })
+          return userCredential
+        })
+        .then((userCredential) => {
           const user = userCredential.user
           commit('setUser', user)
           commit('setIsAuthentificated', true)

@@ -162,6 +162,7 @@ export default {
       if (!isFormCorrect) return
       // actually submit form
       this.userRegistration({
+        name: this.name,
         email: this.email,
         password: this.password
       })

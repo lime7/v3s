@@ -1,10 +1,9 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
-    {{ isAuthentificated }}
+    <h1 class="mb-4 h3 fw-bold">Home</h1>
     <div v-if="!isAuthentificated">is not Auth</div>
     <div v-else>
-      {{ getUser.email }}
+      Hello, <strong>{{ getUser.user.displayName }}</strong> !
     </div>
   </div>
 </template>
