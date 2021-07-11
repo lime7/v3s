@@ -3,7 +3,7 @@
 
 import firebase from 'firebase'
 // import 'firebase/auth'
-// import 'firebase/firestore'
+import 'firebase/firestore'
 
 var firebaseConfig = {
   apiKey: 'AIzaSyBNJPwFTNo-HwoKp1qw4CWAPIzuU0h1kWg',
@@ -18,13 +18,16 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 
 // utils
-// const db = firebase.firestore()
-// const auth = firebase.auth()
+const db = firebase.firestore()
+const auth = firebase.auth()
 
 // collection references
-// const usersCollection = db.collection('users')
+const usersCollection = db.collection('users')
 
 // export utils/refs
-// export {
-//   firebase
-// }
+export {
+  firebase,
+  db,
+  auth,
+  usersCollection
+}

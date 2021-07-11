@@ -67,9 +67,9 @@
           Login
         </button>
 
-        <a href="#" class="d-block text-center text-muted mt-2">
+        <!-- <router-link to="/reset"  class="d-block text-center text-muted mt-2">
           Forgot password?
-        </a>
+        </router-link> -->
       </div>
     </form>
 

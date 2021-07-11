@@ -5,11 +5,14 @@
     <div v-else>
       Hello, <strong>{{ getUser.user.displayName }}</strong> !
     </div>
+    <a href="#" v-on:click.prevent="userLogout">
+      Logout
+    </a>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Home',
@@ -18,9 +21,9 @@ export default {
   // },
   computed: {
     ...mapGetters(['getUser', 'isAuthentificated'])
+  },
+  methods: {
+    ...mapActions(['userLogout'])
   }
-  // methods: {
-  //   ...mapActions(['userAction'])
-  // }
 }
 </script>

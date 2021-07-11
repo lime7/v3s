@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import firebase from 'firebase'
+import { firebase, usersCollection } from '@/firebase'
 import router from '@/router'
 
 export default createStore({
@@ -24,7 +24,7 @@ export default createStore({
     }
   },
   actions: {
-    userRegistration ({ commit }, { name, email, password }) {
+    userRegistration ({ commit, dispatch }, { name, email, password }) {
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
@@ -36,9 +36,14 @@ export default createStore({
         })
         .then((userCredential) => {
           const user = userCredential.user
+
           commit('setUser', user)
           commit('setIsAuthentificated', true)
           router.push('/login')
+
+          usersCollection.doc(user.uid).set({
+            name: name
+          })
         })
         .catch((err) => {
           console.log(err)
@@ -57,7 +62,8 @@ export default createStore({
           commit('setIsAuthentificated', true)
           router.push('/') // or router.push('/dashboard')
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err)
           commit('setUser', null)
           commit('setIsAuthentificated', false)
           router.push('/')
@@ -88,13 +94,30 @@ export default createStore({
         .then(user => {
           commit('setUser', null)
           commit('setIsAuthentificated', false)
-          router.push('/')
+          router.push('/login')
         })
         .catch(() => {
           commit('setUser', null)
           commit('setIsAuthentificated', false)
           router.push('/')
         })
+    },
+    userResetPassword ({ commit }, { email }) {
+      firebase
+        .auth()
+        .sendPasswordResetEmail(email)
+        .then(() => {
+          console.log('Reset password')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    async fetchUsers ({ commit }, user) {
+      // usersCollection
+      //   .doc(user.uid)
+      //   .get()
+      // console.log(user.uid)
     }
     // userAction ({ commit }) {
     //   firebase
