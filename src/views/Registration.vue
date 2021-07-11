@@ -4,7 +4,7 @@
 
     <form
       class="form mb-3"
-      v-on:submit.prevent="submitHandler">
+      @submit.prevent="submitHandler">
       <div
         class="mb-3 position-relative"
         :class="{ error: v$.name.$errors.length }">

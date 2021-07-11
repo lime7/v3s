@@ -26,7 +26,7 @@
 
     <form
       class="form mb-3"
-      v-on:submit.prevent="submitHandler">
+      @submit.prevent="submitHandler">
       <div
         class="mb-3"
         :class="{ error: v$.email.$errors.length }">
@@ -41,6 +41,11 @@
           :key="error.$uid" >
           <div class="error-msg">{{ error.$message }}</div>
         </div>
+        <!-- <div
+          class="input-errors invalid-feedback d-block"
+          v-if="getError.code == 'auth/wrong-password'" >
+          <div class="error-msg">{{ getError.message }}</div>
+        </div> -->
       </div>
 
       <div
@@ -58,6 +63,11 @@
           :key="error.$uid" >
           <div class="error-msg">{{ error.$message }}</div>
         </div>
+        <!-- <div
+          class="input-errors invalid-feedback d-block"
+          v-if="getError.code == 'auth/wrong-email'" >
+          <div class="error-msg">{{ getError.message }}</div>
+        </div> -->
       </div>
 
       <div class="pt-2">
@@ -70,6 +80,10 @@
         <!-- <router-link to="/reset"  class="d-block text-center text-muted mt-2">
           Forgot password?
         </router-link> -->
+
+        <!-- <small class="text-muted">
+          {{ getError }} <span class="text-danger">{{ getError }}</span>
+        </small> -->
       </div>
     </form>
 
@@ -84,7 +98,7 @@
 import useVuelidate from '@vuelidate/core'
 import { helpers, required, minLength, email } from '@vuelidate/validators'
 
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -117,11 +131,14 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters(['getError'])
+  },
   methods: {
     ...mapActions(['userLogin', 'userLoginGoogle']),
     async submitHandler () {
-      // const isFormCorrect = await this.v$.$validate()
-      // if (!isFormCorrect) return
+      const isFormCorrect = await this.v$.$validate()
+      if (isFormCorrect) return
       // actually submit form
       this.userLogin({
         email: this.email,

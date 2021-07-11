@@ -6,7 +6,8 @@ export default createStore({
   state: {
     isAuthentificated: false,
     user: null,
-    users: []
+    users: [],
+    error: null
   },
   getters: {
     getUser (state) {
@@ -17,6 +18,9 @@ export default createStore({
     },
     isAuthentificated (state) {
       return state.user !== null && state.user !== undefined
+    },
+    getError (state) {
+      return state.error
     }
   },
   mutations: {
@@ -28,6 +32,9 @@ export default createStore({
     },
     setUsers (state, payload) {
       state.users = payload
+    },
+    setError (state, payload) {
+      state.error = payload
     }
   },
   actions: {
@@ -70,10 +77,11 @@ export default createStore({
           commit('setIsAuthentificated', true)
           router.push('/') // or router.push('/dashboard')
 
-          dispatch('fetchUsers', user)
+          // dispatch('fetchUsers', user)
         })
         .catch((err) => {
           console.log(err)
+          commit('setError', err)
           commit('setUser', null)
           commit('setIsAuthentificated', false)
           router.push('/')
@@ -133,7 +141,6 @@ export default createStore({
             const userProfile = doc.data()
             // userProfile.name = doc.name
             usersArray.push(userProfile)
-            console.log(usersArray)
           })
 
           commit('setUsers', usersArray)
