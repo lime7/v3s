@@ -5,11 +5,15 @@ import router from '@/router'
 export default createStore({
   state: {
     isAuthentificated: false,
-    user: null
+    user: null,
+    users: []
   },
   getters: {
     getUser (state) {
       return state.user
+    },
+    getUsers (state) {
+      return state.users
     },
     isAuthentificated (state) {
       return state.user !== null && state.user !== undefined
@@ -21,10 +25,13 @@ export default createStore({
     },
     setUser (state, payload) {
       state.user = payload
+    },
+    setUsers (state, payload) {
+      state.users = payload
     }
   },
   actions: {
-    userRegistration ({ commit, dispatch }, { name, email, password }) {
+    userRegistration ({ commit }, { name, email, password }) {
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
@@ -37,13 +44,15 @@ export default createStore({
         .then((userCredential) => {
           const user = userCredential.user
 
+          usersCollection.doc(user.uid).set({
+            displayName: name,
+            email: user.email,
+            uid: user.uid
+          })
+
           commit('setUser', user)
           commit('setIsAuthentificated', true)
           router.push('/login')
-
-          usersCollection.doc(user.uid).set({
-            name: name
-          })
         })
         .catch((err) => {
           console.log(err)
@@ -52,15 +61,16 @@ export default createStore({
           router.push('/')
         })
     },
-    userLogin ({ commit }, { email, password }) {
+    userLogin ({ commit, dispatch }, { email, password }) {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(user => {
           commit('setUser', user)
-          console.log(user)
           commit('setIsAuthentificated', true)
           router.push('/') // or router.push('/dashboard')
+
+          dispatch('fetchUsers', user)
         })
         .catch((err) => {
           console.log(err)
@@ -114,10 +124,20 @@ export default createStore({
         })
     },
     async fetchUsers ({ commit }, user) {
-      // usersCollection
-      //   .doc(user.uid)
-      //   .get()
-      // console.log(user.uid)
+      usersCollection
+        .get()
+        .then(querySnapshot => {
+          const usersArray = []
+
+          querySnapshot.forEach(doc => {
+            const userProfile = doc.data()
+            // userProfile.name = doc.name
+            usersArray.push(userProfile)
+            console.log(usersArray)
+          })
+
+          commit('setUsers', usersArray)
+        })
     }
     // userAction ({ commit }) {
     //   firebase

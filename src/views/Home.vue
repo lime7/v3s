@@ -8,6 +8,12 @@
     <a href="#" v-on:click.prevent="userLogout">
       Logout
     </a>
+
+    <ul class="list-unstyled mt-5">
+      <li v-for="user in getUsers" :key="user.uid">
+        {{ user.uid }} , {{ user.displayName }} , {{ user.email }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -16,14 +22,14 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Home',
-  // mounted () {
-  //   this.userAction()
-  // },
+  mounted () {
+    this.fetchUsers()
+  },
   computed: {
-    ...mapGetters(['getUser', 'isAuthentificated'])
+    ...mapGetters(['getUser', 'getUsers', 'isAuthentificated'])
   },
   methods: {
-    ...mapActions(['userLogout'])
+    ...mapActions(['userLogout', 'fetchUsers'])
   }
 }
 </script>
